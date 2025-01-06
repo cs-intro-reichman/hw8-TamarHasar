@@ -43,8 +43,8 @@
 
     /** If this user follows the given name, returns true; otherwise returns false. */
     public boolean follows(String name) {
-        for (int i = 0; i < fCount ; i ++) {
-            if (follows[i] != null && follows[i].equals(name)) { 
+        for (int i = 0; i < fCount; i++) {
+            if (follows[i].equals(name)) {
                 return true;
             }
         }
@@ -57,10 +57,8 @@
             return false;
         }
 
-        //add follower to the next available space 
-        follows [fCount] = name; 
-        fCount ++;
-
+        follows[fCount] = name;
+        fCount++;
         return true;
     }
 
