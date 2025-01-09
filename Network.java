@@ -31,7 +31,7 @@ public class Network {
      *  Notice that the method receives a String, and returns a User object. */
     public User getUser(String name) {
         for (int i = 0; i < userCount ; i ++) {
-            if (users[i] != null && users[i].equals(name)) { 
+            if (users[i] != null && users[i].getName().equalsIgnoreCase(name)) {
                 return users[i];
             }
         }
@@ -45,7 +45,7 @@ public class Network {
     *  If the given name is already a user in this network, does nothing and returns false;
     *  Otherwise, creates a new user with the given name, adds the user to this network, and returns true. */
     public boolean addUser(String name) {
-        if (getUser(name) == null || userCount == users.length){
+        if (getUser(name) != null || userCount == users.length){
             return false;
         }
 
@@ -60,19 +60,26 @@ public class Network {
      *  If any of the two names is not a user in this network,
      *  or if the "follows" addition failed for some reason, returns false. */
     public boolean addFollowee(String name1, String name2) {
-        if (getUser(name1) == null || getUser(name2) == null) {
+        User user1 = getUser(name1);
+        User user2 = getUser(name2);
+
+        if (user1 == null || user2 == null) {
             return false; 
         }
-        return getUser(name1).addFollowee(name2);
+        return user1.addFollowee(name2);
 
     }
     
     /** For the user with the given name, recommends another user to follow. The recommended user is
      *  the user that has the maximal mutual number of followees as the user with the given name. */
     public String recommendWhoToFollow(String name) {
+        User user = getUser(name);
+        if (user == null) {
+            return null;
+        }
+
         User recommended = null;
         User userToCheck = null; 
-        User user = getUser(name);
         int maxMutuals = 0; 
         int mutualsToCheck = 0; 
 
